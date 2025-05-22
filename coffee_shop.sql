@@ -74,7 +74,7 @@ CREATE TABLE reviews (
 );
 
 
------------------------------заполнение
+-----------------------------Г§Г ГЇГ®Г«Г­ГҐГ­ГЁГҐ
 INSERT INTO products (name, description, price, category, stock_quantity) VALUES
 ('Espresso', 'Strong and bold coffee shot.', 2.50, 'Coffee', 50),
 ('Latte', 'Smooth coffee with steamed milk.', 3.50, 'Coffee', 30),
@@ -136,48 +136,48 @@ select * from reviews
 
 
 
-----------------------------подзапросы
+----------------------------ГЇГ®Г¤Г§Г ГЇГ°Г®Г±Г»
 
---Получить все заказы, у которых сумма превышает среднюю сумму всех заказов
+--ГЏГ®Г«ГіГ·ГЁГІГј ГўГ±ГҐ Г§Г ГЄГ Г§Г», Гі ГЄГ®ГІГ®Г°Г»Гµ Г±ГіГ¬Г¬Г  ГЇГ°ГҐГўГ»ГёГ ГҐГІ Г±Г°ГҐГ¤Г­ГѕГѕ Г±ГіГ¬Г¬Гі ГўГ±ГҐГµ Г§Г ГЄГ Г§Г®Гў
 SELECT * 
 FROM orders 
 WHERE total_amount > (SELECT AVG(total_amount) FROM orders);
---Получить клиентов, которые оставили отзывы на продукты
+--ГЏГ®Г«ГіГ·ГЁГІГј ГЄГ«ГЁГҐГ­ГІГ®Гў, ГЄГ®ГІГ®Г°Г»ГҐ Г®Г±ГІГ ГўГЁГ«ГЁ Г®ГІГ§Г»ГўГ» Г­Г  ГЇГ°Г®Г¤ГіГЄГІГ»
 SELECT * 
 FROM customers 
 WHERE id IN (SELECT customer_id FROM reviews);
---Получить сотрудников с зарплатой выше средней зарплаты
+--ГЏГ®Г«ГіГ·ГЁГІГј Г±Г®ГІГ°ГіГ¤Г­ГЁГЄГ®Гў Г± Г§Г Г°ГЇГ«Г ГІГ®Г© ГўГ»ГёГҐ Г±Г°ГҐГ¤Г­ГҐГ© Г§Г Г°ГЇГ«Г ГІГ»
 SELECT * 
 FROM employees 
 WHERE salary > (SELECT AVG(salary) FROM employees);
 
----------------запросы с группировкой
+---------------Г§Г ГЇГ°Г®Г±Г» Г± ГЈГ°ГіГЇГЇГЁГ°Г®ГўГЄГ®Г©
 
---Общая сумма заказов по статусу:
+--ГЋГЎГ№Г Гї Г±ГіГ¬Г¬Г  Г§Г ГЄГ Г§Г®Гў ГЇГ® Г±ГІГ ГІГіГ±Гі:
 SELECT status, SUM(total_amount) AS total_sales
 FROM orders
 GROUP BY status;
---Количество отзывов по каждому клиенту:
+--ГЉГ®Г«ГЁГ·ГҐГ±ГІГўГ® Г®ГІГ§Г»ГўГ®Гў ГЇГ® ГЄГ Г¦Г¤Г®Г¬Гі ГЄГ«ГЁГҐГ­ГІГі:
 SELECT customer_id, COUNT(*) AS review_count
 FROM reviews
 GROUP BY customer_id;
---Общая сумма продаж по продуктам:
+--ГЋГЎГ№Г Гї Г±ГіГ¬Г¬Г  ГЇГ°Г®Г¤Г Г¦ ГЇГ® ГЇГ°Г®Г¤ГіГЄГІГ Г¬:
 SELECT product_id, SUM(quantity * unit_price) AS total_sales
 FROM order_items
 GROUP BY product_id;
---Количество продуктов в каждой категории:
+--ГЉГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГЇГ°Г®Г¤ГіГЄГІГ®Гў Гў ГЄГ Г¦Г¤Г®Г© ГЄГ ГІГҐГЈГ®Г°ГЁГЁ:
 SELECT category, COUNT(*) AS product_count
 FROM products
 GROUP BY category;
---Средний рейтинг по продуктам:
+--Г‘Г°ГҐГ¤Г­ГЁГ© Г°ГҐГ©ГІГЁГ­ГЈ ГЇГ® ГЇГ°Г®Г¤ГіГЄГІГ Г¬:
 SELECT product_id, AVG(rating) AS average_rating
 FROM reviews
 GROUP BY product_id;
 
 
-------------------------оконная функция
+------------------------Г®ГЄГ®Г­Г­Г Гї ГґГіГ­ГЄГ¶ГЁГї
 
---для подсчета общего количества заказов для каждого клиента
+--Г¤Г«Гї ГЇГ®Г¤Г±Г·ГҐГІГ  Г®ГЎГ№ГҐГЈГ® ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ  Г§Г ГЄГ Г§Г®Гў Г¤Г«Гї ГЄГ Г¦Г¤Г®ГЈГ® ГЄГ«ГЁГҐГ­ГІГ 
 SELECT 
     c.id AS customer_id,
     c.first_name,
@@ -188,7 +188,7 @@ FROM
 LEFT JOIN 
     orders o ON c.id = o.customer_id;
 
---для вычисления средней оценки продуктов
+--Г¤Г«Гї ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГї Г±Г°ГҐГ¤Г­ГҐГ© Г®Г¶ГҐГ­ГЄГЁ ГЇГ°Г®Г¤ГіГЄГІГ®Гў
 SELECT 
     p.id AS product_id,
     p.name,
@@ -198,7 +198,7 @@ FROM
 LEFT JOIN 
     reviews r ON p.id = r.product_id;
 
---для ранжирования сотрудников по зарплате
+--Г¤Г«Гї Г°Г Г­Г¦ГЁГ°Г®ГўГ Г­ГЁГї Г±Г®ГІГ°ГіГ¤Г­ГЁГЄГ®Гў ГЇГ® Г§Г Г°ГЇГ«Г ГІГҐ
 SELECT 
     e.id AS employee_id,
     e.first_name,
@@ -209,7 +209,7 @@ FROM
     employees e;
 
 
------------------------процедура
+-----------------------ГЇГ°Г®Г¶ГҐГ¤ГіГ°Г 
 
 CREATE TYPE OrderItemList AS TABLE(
     ProductID INT,
@@ -225,20 +225,20 @@ AS
 BEGIN
     BEGIN TRANSACTION;
 
-    -- Добавление записи в таблицу заказов
+    -- Г„Г®ГЎГ ГўГ«ГҐГ­ГЁГҐ Г§Г ГЇГЁГ±ГЁ Гў ГІГ ГЎГ«ГЁГ¶Гі Г§Г ГЄГ Г§Г®Гў
     INSERT INTO orders(customer_id, total_amount, status)
     VALUES(@CustomerID, @TotalAmount, 'new');
 
-    -- Получаем ID последнего добавленного заказа
+    -- ГЏГ®Г«ГіГ·Г ГҐГ¬ ID ГЇГ®Г±Г«ГҐГ¤Г­ГҐГЈГ® Г¤Г®ГЎГ ГўГ«ГҐГ­Г­Г®ГЈГ® Г§Г ГЄГ Г§Г 
     DECLARE @OrderID INT = SCOPE_IDENTITY();
 
-    -- Добавляем элементы заказа
+    -- Г„Г®ГЎГ ГўГ«ГїГҐГ¬ ГЅГ«ГҐГ¬ГҐГ­ГІГ» Г§Г ГЄГ Г§Г 
     INSERT INTO order_items(order_id, product_id, quantity, unit_price)
     SELECT @OrderID, ProductID, Quantity, P.price
     FROM @OrderItems IT
     JOIN products P ON IT.ProductID = P.id;
 
-    -- Обновляем количество продуктов в инвентаре
+    -- ГЋГЎГ­Г®ГўГ«ГїГҐГ¬ ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ® ГЇГ°Г®Г¤ГіГЄГІГ®Гў Гў ГЁГ­ГўГҐГ­ГІГ Г°ГҐ
     UPDATE inventory
     SET quantity -= QTY.Quantity
     FROM inventory INV
@@ -251,8 +251,8 @@ GO
 
 DECLARE @OrderItems OrderItemList;
 INSERT INTO @OrderItems(ProductID, Quantity) VALUES
-(1, 2), -- два эспрессо
-(2, 1); -- один латте
+(1, 2), -- Г¤ГўГ  ГЅГ±ГЇГ°ГҐГ±Г±Г®
+(2, 1); -- Г®Г¤ГЁГ­ Г«Г ГІГІГҐ
 
 EXEC AddNewOrder
     @CustomerID = 1,
@@ -276,7 +276,7 @@ CREATE TABLE trigger_logs (
 );
 
 
---для проверки минимального количества на складе
+--Г¤Г«Гї ГЇГ°Г®ГўГҐГ°ГЄГЁ Г¬ГЁГ­ГЁГ¬Г Г«ГјГ­Г®ГЈГ® ГЄГ®Г«ГЁГ·ГҐГ±ГІГўГ  Г­Г  Г±ГЄГ«Г Г¤ГҐ
 --Drop trigger check_min_stock
 CREATE TRIGGER check_min_stock
 ON inventory
@@ -287,13 +287,13 @@ BEGIN
 
 
 
-    -- Логируем изменение уровня запаса
+    -- Г‹Г®ГЈГЁГ°ГіГҐГ¬ ГЁГ§Г¬ГҐГ­ГҐГ­ГЁГҐ ГіГ°Г®ГўГ­Гї Г§Г ГЇГ Г±Г 
     INSERT INTO trigger_logs (trigger_name, action_time, username, description)
     SELECT 
         'check_min_stock',
         GETDATE(),
         SYSTEM_USER,
-        CONCAT('Проверено наличие запасов для product_id: ', i.product_id, '. Новый запас: ', i.quantity)
+        CONCAT('ГЏГ°Г®ГўГҐГ°ГҐГ­Г® Г­Г Г«ГЁГ·ГЁГҐ Г§Г ГЇГ Г±Г®Гў Г¤Г«Гї product_id: ', i.product_id, '. ГЌГ®ГўГ»Г© Г§Г ГЇГ Г±: ', i.quantity)
     FROM inserted i;
 END;
 
